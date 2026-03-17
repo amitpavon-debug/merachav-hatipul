@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מרחב הטיפול — תוכנה לניהול מטופלים</title>
+<meta name="description" content="תוכנה לניהול מטופלים ותיעוד מפגשים — מאובטחת, פשוטה, ועובדת לגמרי ללא אינטרנט.">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@300;400;600&family=Heebo:wght@300;400;500&display=swap" rel="stylesheet">
+<script>
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    window.location.replace('mobile.html');
+  }
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#f7f3ee;
+  --warm:#ede5d8;
+  --brown:#6b5240;
+  --brown-light:#9a7a62;
+  --brown-dark:#3d2e22;
+  --text:#2c1f14;
+  --text-muted:#8a7060;
+  --gold:#c8a96e;
+  --green:#7a9e8a;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;background:var(--cream);border-bottom:1px solid rgba(107,82,64,0.12);position:sticky;top:0;z-index:100;}
+.nav-logo{font-family:'Noto Serif Hebrew',serif;font-size:18px;font-weight:600;color:var(--brown-dark);}
+.nav-links{display:flex;gap:2rem;}
+.nav-links a{font-size:14px;color:var(--text-muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--brown);}
+.nav-cta{background:var(--brown);color:#fff;padding:8px 20px;border-radius:6px;font-size:14px;text-decoration:none;transition:background .2s;}
+.nav-cta:hover{background:var(--brown-dark);}
+
+.hero{padding:6rem 3rem 4rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(122,158,138,0.15);border:1px solid rgba(122,158,138,0.3);border-radius:20px;padding:5px 14px;font-size:13px;color:var(--green);margin-bottom:1.5rem;}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.hero h1{font-family:'Noto Serif Hebrew',serif;font-size:44px;font-weight:600;line-height:1.25;color:var(--brown-dark);margin-bottom:1.2rem;}
+.hero h1 em{font-style:normal;color:var(--brown);}
+.hero-sub{font-size:17px;color:var(--text-muted);line-height:1.8;margin-bottom:2rem;font-weight:300;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-main{background:var(--brown);color:#fff;padding:13px 28px;border-radius:8px;font-size:15px;text-decoration:none;font-family:'Heebo',sans-serif;transition:all .2s;border:none;cursor:pointer;display:inline-block;}
+.btn-main:hover{background:var(--brown-dark);transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--brown);padding:13px 28px;border-radius:8px;font-size:15px;text-decoration:none;border:1.5px solid rgba(107,82,64,0.3);transition:all .2s;cursor:pointer;display:inline-block;}
+.btn-ghost:hover{border-color:var(--brown);background:rgba(107,82,64,0.05);}
+
+.mockup{background:#1a1815;border-radius:14px;padding:1.5rem;box-shadow:0 30px 80px rgba(61,46,34,0.2);border:1px solid rgba(255,255,255,0.08);}
+.mockup-bar{display:flex;gap:6px;margin-bottom:1rem;}
+.mockup-bar span{width:10px;height:10px;border-radius:50%;}
+.mockup-bar span:nth-child(1){background:#ff6058;}
+.mockup-bar span:nth-child(2){background:#ffbd2e;}
+.mockup-bar span:nth-child(3){background:#29c941;}
+.mockup-header{background:#222018;border-radius:8px;padding:10px 14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.mockup-logo{font-family:'Noto Serif Hebrew',serif;font-size:13px;color:#e8e0d0;}
+.mockup-chip{background:rgba(200,169,110,0.15);border:1px solid rgba(200,169,110,0.3);border-radius:12px;padding:3px 10px;font-size:11px;color:#c8a96e;}
+.mockup-body{display:grid;grid-template-columns:160px 1fr;gap:8px;height:200px;}
+.mockup-sidebar{background:#1e1c1a;border-radius:6px;padding:10px;}
+.mockup-client{background:#2a2620;border-radius:5px;padding:7px 9px;margin-bottom:6px;font-size:11px;color:#8a8070;}
+.mockup-client.active{background:rgba(200,169,110,0.12);color:#e8e0d0;border-right:2px solid #c8a96e;}
+.mockup-main{background:#1e1c1a;border-radius:6px;padding:12px;}
+.mockup-name{font-size:14px;color:#e8e0d0;margin-bottom:4px;}
+.mockup-sub{font-size:10px;color:#5a5448;margin-bottom:10px;}
+.mockup-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;}
+.mockup-stat{background:#252220;border-radius:4px;padding:7px;}
+.mockup-stat-label{font-size:9px;color:#5a5448;}
+.mockup-stat-val{font-size:14px;color:#c8a96e;font-weight:500;}
+.mockup-session{background:#252220;border-radius:4px;padding:8px;font-size:10px;color:#8a8070;}
+.mockup-session-date{color:#e8e0d0;margin-bottom:3px;}
+
+.trust{background:var(--warm);padding:1.5rem 3rem;text-align:center;}
+.trust p{font-size:13px;color:var(--text-muted);margin-bottom:0.8rem;}
+.trust-items{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--brown);}
+.trust-icon{width:18px;height:18px;border-radius:50%;background:var(--brown);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;}
+
+.features{padding:5rem 3rem;max-width:1100px;margin:0 auto;}
+.section-label{font-size:12px;letter-spacing:0.12em;color:var(--brown-light);text-transform:uppercase;margin-bottom:0.8rem;}
+.section-title{font-family:'Noto Serif Hebrew',serif;font-size:32px;font-weight:600;color:var(--brown-dark);margin-bottom:1rem;}
+.section-sub{font-size:16px;color:var(--text-muted);max-width:500px;line-height:1.7;margin-bottom:3rem;font-weight:300;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.feature{background:#fff;border:1px solid rgba(107,82,64,0.1);border-radius:12px;padding:1.8rem;transition:transform .2s,box-shadow .2s;}
+.feature:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(61,46,34,0.1);}
+.feature-num{font-family:'Noto Serif Hebrew',serif;font-size:36px;color:rgba(200,169,110,0.3);font-weight:600;margin-bottom:0.5rem;line-height:1;}
+.feature h3{font-size:16px;font-weight:500;margin-bottom:0.6rem;color:var(--brown-dark);}
+.feature p{font-size:14px;color:var(--text-muted);line-height:1.7;}
+
+.testimonials{background:var(--warm);padding:5rem 3rem;}
+.testimonials-inner{max-width:1100px;margin:0 auto;}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:3rem;}
+.testimonial{background:#fff;border-radius:12px;padding:1.8rem;border:1px solid rgba(107,82,64,0.08);}
+.testimonial-text{font-size:15px;color:var(--text);line-height:1.8;margin-bottom:1.2rem;font-style:italic;font-weight:300;}
+.testimonial-author{display:flex;align-items:center;gap:10px;}
+.author-avatar{width:38px;height:38px;border-radius:50%;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:var(--brown);border:1.5px solid rgba(107,82,64,0.2);}
+.author-name{font-size:14px;font-weight:500;color:var(--brown-dark);}
+.author-role{font-size:12px;color:var(--text-muted);}
+
+.pricing{padding:5rem 3rem;max-width:1100px;margin:0 auto;}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:3rem;}
+.plan{background:#fff;border:1px solid rgba(107,82,64,0.12);border-radius:14px;padding:2rem;text-align:center;transition:transform .2s;position:relative;}
+.plan:hover{transform:translateY(-3px);}
+.plan.featured{border:2px solid var(--gold);}
+.plan-badge{position:absolute;top:-12px;right:50%;transform:translateX(50%);background:var(--gold);color:#fff;font-size:11px;padding:4px 14px;border-radius:20px;white-space:nowrap;}
+.plan-name{font-size:20px;font-weight:500;margin-bottom:4px;}
+.plan-desc{font-size:13px;color:var(--text-muted);margin-bottom:1.5rem;}
+.plan-price{font-family:'Noto Serif Hebrew',serif;font-size:40px;font-weight:600;color:var(--brown-dark);line-height:1;}
+.plan-vat{font-size:12px;color:var(--text-muted);margin-bottom:1.5rem;}
+.plan-divider{height:1px;background:rgba(107,82,64,0.1);margin:1rem 0;}
+.plan-clients{font-size:14px;color:var(--text-muted);margin-bottom:1rem;}
+.plan-upgrade{font-size:12px;color:var(--brown-light);margin-bottom:1.5rem;}
+.plan-btn{display:block;padding:11px;border-radius:8px;font-size:14px;text-decoration:none;border:1.5px solid var(--brown);color:var(--brown);transition:all .2s;cursor:pointer;background:transparent;width:100%;font-family:'Heebo',sans-serif;}
+.plan-btn:hover{background:var(--brown);color:#fff;}
+.plan.featured .plan-btn{background:var(--brown);color:#fff;}
+
+.trial{margin:0 3rem 5rem;background:linear-gradient(135deg,var(--brown-dark) 0%,var(--brown) 100%);border-radius:16px;padding:3.5rem;text-align:center;color:#fff;}
+.trial h2{font-family:'Noto Serif Hebrew',serif;font-size:30px;font-weight:600;margin-bottom:0.8rem;}
+.trial p{font-size:16px;opacity:0.8;margin-bottom:2rem;font-weight:300;}
+.btn-trial{display:inline-block;background:#fff;color:var(--brown-dark);padding:13px 32px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:'Heebo',sans-serif;}
+.btn-trial:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+
+.contact{padding:4rem 3rem;max-width:700px;margin:0 auto;text-align:center;}
+.contact-card{background:#fff;border:1px solid rgba(107,82,64,0.12);border-radius:14px;padding:2.5rem;margin-top:2rem;}
+.contact-name{font-family:'Noto Serif Hebrew',serif;font-size:22px;font-weight:600;color:var(--brown-dark);margin-bottom:0.3rem;}
+.contact-role{font-size:14px;color:var(--text-muted);margin-bottom:1.5rem;}
+.contact-rows{text-align:right;}
+.contact-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(107,82,64,0.08);font-size:14px;}
+.contact-row:last-child{border:none;}
+.contact-label{color:var(--text-muted);}
+.contact-val{color:var(--brown-dark);font-weight:500;}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;padding:11px 24px;border-radius:8px;font-size:14px;text-decoration:none;margin-top:1.5rem;transition:all .2s;}
+.wa-btn:hover{background:#1da851;transform:translateY(-1px);}
+
+footer{background:var(--brown-dark);color:rgba(255,255,255,0.5);text-align:center;padding:1.5rem;font-size:13px;}
+footer span{color:rgba(255,255,255,0.8);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero-content{animation:fadeUp .7s ease both;}
+.mockup-wrap{animation:fadeUp .7s .15s ease both;}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .hero{grid-template-columns:1fr;padding:3rem 1.5rem 2rem;gap:2rem;}
+  .hero h1{font-size:30px;}
+  .features-grid{grid-template-columns:1fr;}
+  .testimonials-grid{grid-template-columns:1fr;}
+  .plans{grid-template-columns:1fr;}
+  .trial{margin:0 1.5rem 3rem;padding:2rem 1.5rem;}
+  .features,.pricing{padding:3rem 1.5rem;}
+  .testimonials{padding:3rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">מרחב הטיפול</div>
+  <div class="nav-links">
+    <a href="#features">יתרונות</a>
+    <a href="#testimonials">ממליצים</a>
+    <a href="#pricing">מחירים</a>
+    <a href="#contact">צור קשר</a>
+  </div>
+  <a href="#trial" class="nav-cta">התחל בחינם</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+      <h1>הנתונים של המטופלים שלך — <em>שמורים אצלך</em></h1>
+    <p class="hero-sub">תוכנה לניהול מטופלים ותיעוד מפגשים. מאובטחת, פשוטה לשימוש, ועובדת לגמרי אופליין — הנתונים לא עוזבים את המחשב שלך.</p>
+    <div style="background:rgba(107,82,64,0.07);border-right:3px solid var(--brown);border-radius:6px;padding:14px 16px;margin-bottom:1.8rem;">
+      <p style="font-size:15px;color:var(--brown-dark);font-weight:500;margin-bottom:6px;line-height:1.6;">המטופלים שלך סומכים עליך. אתה יכול לסמוך על מרחב הטיפול.</p>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.7;">כמטפל, אתה מחויב לסודיות מקצועית — התוכנה נבנתה עם זה בראש. הנתונים לא עוברים שום שרת, לא נשמרים בענן, ולא נגישים לאף אחד חוץ ממך.</p>
+    </div>
+    <div class="hero-btns">
+      <a href="#trial" class="btn-main">הורד בחינם</a>
+      <a href="#pricing" class="btn-ghost">לצפייה במחירים</a>
+    </div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup">
+      <div class="mockup-bar"><span></span><span></span><span></span></div>
+      <div class="mockup-header">
+        <span class="mockup-logo">מרחב הטיפול</span>
+        <span class="mockup-chip">PRO — 12/30 מטופלים</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-sidebar">
+          <div class="mockup-client active">שרה כהן</div>
+          <div class="mockup-client">דוד לוי</div>
+          <div class="mockup-client">מיכל ברק</div>
+          <div class="mockup-client">יוסי מזרחי</div>
+        </div>
+        <div class="mockup-main">
+          <div class="mockup-name">שרה כהן</div>
+          <div class="mockup-sub">מפגש שבועי · ₪350</div>
+          <div class="mockup-stats">
+            <div class="mockup-stat"><div class="mockup-stat-label">מפגשים</div><div class="mockup-stat-val">24</div></div>
+            <div class="mockup-stat"><div class="mockup-stat-label">שולם</div><div class="mockup-stat-val">₪8,400</div></div>
+          </div>
+          <div class="mockup-session">
+            <div class="mockup-session-date">מפגש אחרון — 14 מרץ 2025</div>
+            עבדנו על דפוסי חשיבה ודיברנו על...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <p>מטפלים רבים כבר משתמשים במרחב הטיפול</p>
+  <div class="trust-items">
+    <div class="trust-item"><div class="trust-icon">✓</div> הצפנת AES-256</div>
+    <div class="trust-item"><div class="trust-icon">✓</div> ללא ענן — הכל אצלך</div>
+    <div class="trust-item"><div class="trust-icon">✓</div> תשלום חד פעמי</div>
+    <div class="trust-item"><div class="trust-icon">✓</div> תמיכה אישית</div>
+  </div>
+</div>
+
+<section class="features" id="features">
+  <div class="section-label">למה מרחב הטיפול</div>
+  <div class="section-title">כל מה שצריך,<br>בלי מה שלא</div>
+  <p class="section-sub">תוכנה שנבנתה במיוחד למטפלים — לא עוד מערכת CRM מסורבלת.</p>
+  <div class="features-grid">
+    <div class="feature">
+      <div class="feature-num">01</div>
+      <h3>פרטיות ואבטחה מלאה</h3>
+      <p>הנתונים מוצפנים בסיסמה אישית ונשמרים רק אצלך. אף שרת, אף ענן, אף חברה — לא רואים את הנתונים שלך.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">02</div>
+      <h3>תיעוד מהיר ונוח</h3>
+      <p>מפגש חדש בשניות — תאריך, סיכום, נושאים, תשלום. הכל במקום אחד, מסודר, וקל לחיפוש.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">03</div>
+      <h3>מעקב כספי פשוט</h3>
+      <p>ראה מי שילם ומי חייב, כמה הכנסת בחודש, וייצא הכל לאקסל להנהלת חשבונות בלחיצה אחת.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">04</div>
+      <h3>גיבוי בסיסמה אישית</h3>
+      <p>גבה את כל הנתונים לקובץ מוצפן בסיסמה שרק אתה יודע. אפשר לשחזר בכל מחשב.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">05</div>
+      <h3>ללא אינטרנט</h3>
+      <p>התוכנה עובדת תמיד — גם בלי חיבור לרשת, גם בחו"ל, גם אם השרת "נופל".</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">06</div>
+      <h3>קל ללמוד, קל להשתמש</h3>
+      <p>ממשק נקי ופשוט שתבין ב-5 דקות. לא צריך הדרכה, לא צריך תמיכה טכנית מורכבת.</p>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+  <div class="testimonials-inner">
+    <div class="section-label">מה אומרים</div>
+    <div class="section-title">מטפלים שכבר משתמשים</div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <p class="testimonial-text">"סוף סוף תוכנה שמרגישה שנבנתה בשבילי. לא עוד אקסלים מבולגנים — כל המידע מסודר, מאובטח, ונגיש."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">ר.כ</div>
+          <div>
+            <div class="author-name"> רונית </div>
+            <div class="author-role">פסיכולוגית קלינית, תל אביב</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-text">"מה שהכי חשוב לי — הנתונים נשמרים רק אצלי. לא בענן, לא אצל חברה. זה בדיוק מה שחיפשתי."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">א.ל</div>
+          <div>
+            <div class="author-name">אמיר</div>
+            <div class="author-role">עובד סוציאלי קליני, חיפה</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-text">"עברתי מניהול ידני לתוכנה הזו ולא מצטערת. החיסכון בזמן ובבלגן עצום. ממליצה בחום לכל מטפל."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">מ.ב</div>
+          <div>
+            <div class="author-name">מיכל</div>
+            <div class="author-role">מטפלת זוגית ומשפחתית, ירושלים</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-label">מחירים</div>
+  <div class="section-title">תשלום חד פעמי — ללא מנוי</div>
+  <p class="section-sub">שלם פעם אחת, השתמש לתמיד. אין חיובים חודשיים, אין הפתעות.</p>
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name" style="color:#6ab0f5">START</div>
+      <div class="plan-desc">מתאים למטפלים בתחילת דרכם</div>
+      <div class="plan-price">₪690</div>
+      <div class="plan-vat">כולל מע"מ</div>
+      <div class="plan-divider"></div>
+      <div class="plan-clients">עד 10 מטופלים</div>
+      <button class="plan-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">רכוש עכשיו</button>
+    </div>
+    <div class="plan featured">
+      <div class="plan-badge">הכי פופולרי</div>
+      <div class="plan-name" style="color:#c8a96e">PRO</div>
+      <div class="plan-desc">מתאים למטפלים מבוססים</div>
+      <div class="plan-price">₪1,290</div>
+      <div class="plan-vat">כולל מע"מ</div>
+      <div class="plan-divider"></div>
+      <div class="plan-clients">עד 30 מטופלים</div>
+      <button class="plan-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">רכוש עכשיו</button>
+    </div>
+    <div class="plan">
+      <div class="plan-name" style="color:#7a9e8a">UNLIMITED</div>
+      <div class="plan-desc">לקליניקות גדולות</div>
+      <div class="plan-price">₪2,100</div>
+      <div class="plan-vat">כולל מע"מ</div>
+      <div class="plan-divider"></div>
+      <div class="plan-clients">ללא הגבלת מטופלים</div>
+           <button class="plan-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">רכוש עכשיו</button>
+    </div>
+  </div>
+</section>
+
+<div class="trial" id="trial">
+  <h2>רוצה לנסות קודם?</h2>
+  <p>הורד גרסת ניסיון חינמית — עד 3 מטופלים, ללא הגבלת זמן, ללא כרטיס אשראי.</p>
+  <a href="https://github.com/amitpavon-debug/merachav-hatipul/releases/download/v1.0/Setup.2.0.0.exe" class="btn-trial">הורד בחינם ←</a>
+</div>
+
+<section class="contact" id="contact">
+  <div class="section-label">צור קשר</div>
+  <div class="section-title" style="font-size:26px">נשמח לעזור</div>
+  <div class="contact-card">
+    <div class="contact-name">עמית פבון</div>
+    <div class="contact-role">מפתח מרחב הטיפול</div>
+    <div class="contact-rows">
+      <div class="contact-row"><span class="contact-label">טלפון</span><span class="contact-val">054-991-3379</span></div>
+      <div class="contact-row"><span class="contact-label">מייל</span><span class="contact-val"><a href="mailto:Amit.Pavon@gmail.com" style="color:var(--brown-dark);text-decoration:none;">Amit.Pavon@gmail.com</a></span></div>
+    </div>
+    <a href="https://wa.me/972549913379?text=שלום, אני מעוניין במרחב הטיפול" class="wa-btn" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
